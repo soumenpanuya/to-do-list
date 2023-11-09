@@ -27,7 +27,7 @@ const app=(function()
             localStorage.setItem("save_list",JSON.stringify(task_list));
         },
         render_task:function(){
-            ul.innerHTML="";
+            // ul.innerHTML="";
             task_list.forEach((obj)=>{
                 this.dompost(obj);
             })

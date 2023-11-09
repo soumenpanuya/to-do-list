@@ -113,20 +113,31 @@ ul li.checked{
     color: orangered;
     
 }
+li #icon-container{
 
-li .icon{
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    /* overflow: hidden; */
+    /* max-height: 100%;
+    max-width: 10rem; */
+    /* max-width: 0; */
+}
+
+li .icon{
+    padding: 0rem 0.8rem;
     font-size: 2.5rem;
-    overflow: hidden;
-    max-width: 0;
-    transition: all 0.3s ease-in-out;
+    /* overflow: hidden; */
+    /* transition: all 0.3s ease-in-out; */
     display: flex;
     color: black;
     /* border: 1px solid red; */
+    /* position: absolute; */
+    top: 0;
+    transition: all 0.5s ease-in-out;
 }
 
 li .icon i{
@@ -134,13 +145,28 @@ li .icon i{
     padding: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
+    
 }
-li .icon i:hover{
+li .icon:nth-child(2)
+{
+    position: absolute;
+    top: 150%;
+    transition: all 0.5s ease-in-out;
+}
+#icon-container.active .icon:nth-child(1)
+{
+    transform: translateY(-150%);
+}
+#icon-container.active .icon:nth-child(2)
+{
+    top: 0;
+}
+  li .icon i:hover{
     color: orangered;
-}
+} 
 
-ul li:hover .icon{
-    max-width: 10rem;
-}
+ /* ul li:hover #icon-container{
+    max-width: 15rem;
+}   */
 
 
