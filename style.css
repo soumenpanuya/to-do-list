@@ -12,6 +12,9 @@ body{
     width: 100vw;
     background: linear-gradient(45deg,red,blue);
     padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 main{
@@ -21,6 +24,12 @@ main{
     border-radius: 1rem;
     background-color: white;
     padding: 1rem;
+    max-height: 90%;
+    height: 100%;
+    /* overflow: hidden; */
+    /* border: 3px solid black; */
+    position: relative
+   
    
 }
 main h1{
@@ -68,12 +77,14 @@ main h1{
 }
 #task_container{
     width: 100%;
-    /* border: 1px solid red; */
+    /* border: 3px solid red; */
+    height: 80%;
+    overflow-y: auto;
 }
 
 #task_container ul{
-    font-size: 2rem;
-    font-weight: 600;
+    /* font-size: 2rem; */
+    
     list-style: none;
     margin: 1rem 0;
     color: green;
@@ -87,11 +98,25 @@ main h1{
     position: relative;
     width: 100%;
     cursor: default;
+    /* background-color: rgb(255, 0, 128); */
 }
 
 ul li:hover{
     background-color: rgb(0, 255, 170);
 
+}
+ul li input{
+    width: 100%;
+    height: 100%;
+    font-size: 2rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: green;
+    padding-right: 2rem;
+    display: block;
+    /* background-color: red; */
 }
 
 ul li .img{
@@ -108,11 +133,12 @@ ul li .img{
 ul li.checked .img{
     background-image: url(./checked.png);
 }
-ul li.checked{
+ul li.checked input{
     text-decoration: line-through;
     color: orangered;
     
 }
+
 li #icon-container{
 
     position: absolute;
@@ -121,21 +147,16 @@ li #icon-container{
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    /* overflow: hidden; */
-    /* max-height: 100%;
-    max-width: 10rem; */
-    /* max-width: 0; */
+    overflow: hidden;
+    max-width: 0;
+    transition: all 0.4s ease-in-out;
 }
 
 li .icon{
     padding: 0rem 0.8rem;
     font-size: 2.5rem;
-    /* overflow: hidden; */
-    /* transition: all 0.3s ease-in-out; */
     display: flex;
     color: black;
-    /* border: 1px solid red; */
-    /* position: absolute; */
     top: 0;
     transition: all 0.5s ease-in-out;
 }
@@ -153,20 +174,45 @@ li .icon:nth-child(2)
     top: 150%;
     transition: all 0.5s ease-in-out;
 }
-#icon-container.active .icon:nth-child(1)
+li.active #icon-container .icon:nth-child(1)
 {
     transform: translateY(-150%);
 }
-#icon-container.active .icon:nth-child(2)
+li.active #icon-container .icon:nth-child(2)
 {
     top: 0;
 }
-  li .icon i:hover{
+li .icon i:hover{
     color: orangered;
-} 
+}
+ul li.active{
+    background-color: rgb(255, 0, 128);
+}
+ul li.active input{
+    color: white;
+}
+ul li.active i:hover{
+    color: white;
+}
 
- /* ul li:hover #icon-container{
-    max-width: 15rem;
-}   */
+ ul li:hover #icon-container{
+    max-width: 13rem;
+}  
+
+#statusbar{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgb(248, 241, 243);
+    background-color: rgb(253, 11, 91);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+   
+}
 
 

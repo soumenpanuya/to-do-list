@@ -13,6 +13,12 @@ const app=(function()
     // previous task store into an array.....
     let task_list=[];
     const ul=document.querySelector("ul");
+    let pending=document.getElementById("pending");
+    let complete=document.getElementById("com");
+    let total=document.getElementById("total");
+    let pendingtask=0;
+    let completetask=0;
+    let toataltask=0;
     return{
         initialize: function()
         {
@@ -23,14 +29,13 @@ const app=(function()
             }
             this.render_task();
         },
-        savetask:function(){
-            localStorage.setItem("save_list",JSON.stringify(task_list));
-        },
+        
         render_task:function(){
-            // ul.innerHTML="";
+            ul.innerHTML="";
             task_list.forEach((obj)=>{
                 this.dompost(obj);
             })
+            this.updatecount();
         },
         addtask:function()
         {
@@ -45,6 +50,7 @@ const app=(function()
             task_list.push(obj);
             this.savetask();
             this.dompost(obj);
+            this.updatecount();
         },
         updatetask:function(id,state,data){
             const element=document.getElementById(`${id}`);
@@ -57,24 +63,21 @@ const app=(function()
                     {
                         item.state=!item.state;
                     }
-                }
-                if(data)
-                {
-                    item.data=data;
+                    if(data)
+                    {
+                        item.data=data;
+                    }
                 }
             })
             // save update task.......
             this.savetask();
-            this.render_task();
 
         },
         deletetask:function(id){
-            const ele=document.getElementById(id);
             task_list=task_list.filter((item)=>{
                 return item.id!=id
             })
             this.savetask();
-            ul.removeChild(ele);
 
         },
         dompost:function(obj){
@@ -82,14 +85,36 @@ const app=(function()
             li.id=obj.id;
             if(obj.state)
             {
+                completetask++;
                 li.classList.add("checked");
+            }else{
+                pendingtask++;
             }
-            li.innerHTML=`<p>${obj.data}</p>
-                <div id="status" class="img"></div>
-                <div class="icon"><i id="delete" class="fa-sharp fa-solid fa-trash "></i><i id="edit" class="fa-solid fa-pen-to-square"></i></div>`
+            toataltask++;
+            li.innerHTML=`<input  type="text" disabled value="${obj.data}">
+
+            <div id="status" class="img"></div>
+            <div id="icon-container" class="">
+                
+                <div class="icon">
+                    <i id="delete" class="fa-sharp fa-solid fa-trash "></i>
+                    <i id="edit" class="fa-solid fa-pen-to-square"></i>
+                </div> 
+                <div class="icon">
+                    <i id="save" class="fa-solid fa-pen"></i>
+                </div> 
+            </div>`
             
-                this.addevent(li);
+            this.addevent(li);
             ul.prepend(li);
+        },
+        savetask:function(){
+            localStorage.setItem("save_list",JSON.stringify(task_list));
+        },
+        updatecount:function(){
+            pending.innerText=pendingtask;
+            complete.innerText=completetask;
+            total.innerText=toataltask;
         },
         keypress:function(key){
             if(key=="Enter")
@@ -100,18 +125,40 @@ const app=(function()
         addevent:function(item){
             item.onclick=(e)=>{
                 let key=e.target.id;
+                let li=e.target.closest("li");
+                let inp=li.querySelector("input");
                 if(key=="delete")
                 {
-                    app.deletetask(e.target.parentElement.parentElement.id)
+                    this.deletetask(li.id);
+                    if(li.classList.contains("checked"))
+                    {
+                        completetask--;
+                    }else{
+                        pendingtask--;
+                    }
+                    toataltask--;
+                    this.updatecount();
+                    li.remove();
                 }
                 else if(key=="edit")
                 {
-                    // app.updatetask();
-                    console.log("edit this")
+                    li.classList.toggle("active");
+                    console.log(inp)
+                    inp.disabled=!inp.disabled;
+                    inp.focus();
                 }
                 else if(key=="status")
                 {
-                    app.updatetask(e.target.parentElement.id,true);
+                    this.updatetask(li.id,true);
+                    li.classList.contains("checked")?(completetask-- && pendingtask++) : (pendingtask--&& completetask++);
+                    li.classList.toggle("checked");
+                    this.updatecount();
+                }
+                else if(key=="save")
+                {
+                    console.log(inp)
+                    this.updatetask(li.id,false,inp.value);
+                    li.classList.toggle("active");
                 }
             }
         }
